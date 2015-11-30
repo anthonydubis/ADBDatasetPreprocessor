@@ -74,9 +74,41 @@ public class Preprocessor {
 		
 		System.out.println("Done with baby data");
 	}
+	
+	public static void processDeathData() throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("Death.csv")));
+		PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("death-processed.csv", true)));
+		String line = null;
+		
+		while ((line = br.readLine()) != null) {
+			System.out.println(line);
+			String[] split = line.split(",");
+			
+			for (int k = 0; k < split.length; k++)
+				split[k] = split[k].trim();
+			
+			Arrays.sort(split);
+			
+			for (int k = 0; k < Integer.parseInt(split[0]); k++) {
+				for (int j = 1; j < split.length; j++) {
+					out.print(split[j]);
+					if (j < split.length-1)
+						out.print(",");
+					else
+						out.println();
+				}
+			}
+		}
+		
+		out.close();
+		br.close();
+		
+		System.out.println("Done with death data");
+	}
 
 	public static void main(String[] args) throws IOException {
 		// processRestaurantData();
-		processNameData();
+		// processNameData();
+		processDeathData();
 	}
 }
